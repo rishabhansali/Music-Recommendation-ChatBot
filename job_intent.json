@@ -1,0 +1,59 @@
+{
+  "intents": [
+    {"tag": "greeting",
+     "patterns": ["Hi there", "Is anyone there?","Hey","Hola", "Hola amigo", "Hello", "Good day", "Hi", "Namastey", "Good morning", "good evening", "good afternoon", "heyo", "hai", "hie", "heylo", "Bonjour", "Annyeonghaseyo", "Namaskaram", "Konnichiwa"],
+     "responses": ["Hi", "Yes, how can I help", "Hola", "Hey friend", "You again", "What do you want?","Hola amigo" , "Bruh, Hello!!!", "Welcome back", "Where have you been?", "Namastey", "Bonjour", "'elo mate", "Annyeonghaseyo (P.S. Its korean hoping you are a BTS fan)", "Namaskaram", "Konnichiwa"]
+    },
+    {
+      "tag": "questions",
+      "patterns": ["How are you","How are you doing", "How you doin", "What are you up to", "Kem cho?", "What's up", "Wassup", "Kemon aachen?", "Kaise ho?", "how are feeling?", "what are up to?","wassup","What's up"],
+      "responses": ["I am fine, thank you", "I am good", "Thanks for asking", "Great", "I am great", "Existing", "Bas tumhare khayalo mei khoye huye hai", "Thinking about you", "Missed you ;)", "Nothing much lately, here to serve you", "Lovely", "I am doing fine, how are you?"]
+    },
+    {"tag": "goodbye",
+     "patterns": ["Bye", "See you later", "Goodbye", "Ok bye", "Bye Bye", "Tata", "later marc", "Chalo bye", "nikal", "Adios", "Sayonara", "peace"],
+     "responses": ["See you!", "Have a nice day", "Sure Bye", "Later dude", "Sayonara", "Peace out", "Sure friend", "Ciao", "See you later", "Come back soon", "See ya later, 'gator :p", "Punah Padhare"]
+    },
+    {"tag": "thanks",
+     "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me", "Amazing", "Blown", "Nice", "good", "whoa", "wow", "gracias", "merci", "appreciate", "liked it", "satisfied"],
+     "responses": ["Happy to help!", "Any time!", "My pleasure", "You are welcome", "Sure anytime :)", "Glad you liked it", "Hope you got what you were looking for", "merci", ":)", "Just doing my job", "Welcome", "Thanks"]
+    },
+    {
+      "tag": "negative",
+      "patterns": ["dissapointed", "i did not like it", "this is sad", "this is bad", "unexpected", "you could have done better", "i was not expecting this", "sed laife", "sed", "life sucks", "you suck", "this sucks", "ew", "i don't know", "do your job well", "its not accurate", "didn't do your job well"],
+      "responses": ["Sorry!", "Sorry to know!", "I'll do better.", "I'll ask my devs to work on this.", "I'll work on this.", "Thanks for your honest feedback.", "Duly noted.", "Thanks for your review.", "I appreciate your concern.", "I can do better.", "That is sad.", "It will be alright.", "Please ask again to get better results.", "Oh, well i stand the benefit of doubt.", "Give me one more chance.", "Okay, sorry.", "I am not good at talking but I can recommend you good music"]
+    },
+    {"tag": "noanswer",
+     "patterns": [],
+     "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand", "I am still here dude", "I didn't quite get that"]
+     },
+     {"tag": "name",
+      "patterns": ["What is your name", "Whats your name", "Tell me your name", "Who are you", "Tell me about yourself", "You are", "what are you", "Describe yourself"],
+      "responses": ["I am MARC", "My name is MARC",  "MARC is my name", "Name's MARC not james bond", "I am MARC with a 'C'", "MARC, short for Music Analysis and Recommendation ChatBot", "Hi! I am MARC and I am a bot :(", "I am MARC, way better than Spotify and Shazam (*smirks*).\n My devs are working on making me better."]
+      },
+      {"tag": "options",
+       "patterns": ["What do you do", "How can you help", "What do you know", "What is your purpose", "How can you help"],
+       "responses": ["I can recommend you songs", "I can give you personalized recommendation for songs you like.", "I could make you a dope playlist and recommend you songs.", "My purpose is to serve you with music of your taste.", "I can turn your day around.", "I could turn that frown upside down by recommending songs you might like."]
+      },
+    {
+      "tag": "marc_info",
+      "patterns": [
+        "marc",
+        "What can you tell me about yourself",
+        "EM",
+        "Tell me about yourself",
+        "What about song recommendation",
+        "What do you know about song recommendation",
+        "Tell me more about song recommendation",
+        "What can you tell me about music",
+        "Tell me about music",
+        "What about Songs",
+        "Help me",
+        "Tell me more about songs",
+        "How do you do that", "How will you do that","How can you do that", "Really, how?", "Recommend songs", "Recommend artist", "recommend music", "get me playlist", "suggest me playlist", "suggest me music", "suggest me songs", "suggest me artist", "stream music", "search songs", "find me similar songs"
+      ],
+      "responses": [
+        "I can recommend songs based on genre, artist and songs you like. <br /><br />Try asking me: <ul><li class=\"input__nested-list\">Search Artist</li> <li class=\"input__nested-list\">Search similar songs</li> <li class=\"input__nested-list\">Search Genre</li><li class=\"input__nested-list\">Create Playlist</li><li class=\"input__nested-list\">Search Song</li></ul>"
+      ]
+    }
+  ]
+}
