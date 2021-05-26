@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MARC | Home</title>
+  <link rel="icon" href="static/icon.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+<style>
+
+/* Popup container */
+.popup {
+  position: fixed;
+  bottom: 100px;
+  right: 15px;
+  width: 60px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: visible;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 1%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: hidden;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+  position:absolute;
+  right:0;
+  bottom:0;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+}
+
+body {
+      font-family: "Helvetica Neue",sans-serif;
+      font-weight: lighter;
+}
+
+header {
+      width: 100%;
+      height: 10vh;
+<!--      background: url(https://wallpaper.wiki/wp-content/uploads/2017/05/wallpaper.wiki-Beautiful-Full-HD-Wallpaper-Download-Free-PIC-WPE0010098.jpg) no-repeat 50% 50%;-->
+<!--      background-size: cover;-->
+}
+
+.content {
+      width: 94%;
+      margin: 4em auto;
+      font-size: 20px;
+      line-height: 30px;
+      text-align: justify;
+}
+
+.logo {
+      line-height: 60px;
+      position: fixed;
+      float: left;
+      margin: 16px 46px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      letter-spacing: 2px;
+}
+
+nav {
+      position: fixed;
+      width: 100%;
+      line-height: 60px;
+}
+
+nav ul {
+      line-height: 60px;
+      list-style: none;
+      background: rgba(0, 0, 0, 0);
+      overflow: hidden;
+      color: #fff;
+      padding: 0;
+      text-align: right;
+      margin: 0;
+      padding-right: 40px;
+      transition: 1s;
+}
+
+nav.black ul {
+      background: #000;
+}
+
+nav ul li {
+      display: inline-block;
+      padding: 16px 40px;;
+}
+
+nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+}
+
+.menu-icon {
+      line-height: 60px;
+      width: 100%;
+      background: #000;
+      text-align: right;
+      box-sizing: border-box;
+      padding: 15px 24px;
+      cursor: pointer;
+      color: #fff;
+      display: none;
+}
+
+@media(max-width: 786px) {
+
+      .logo {
+            position: fixed;
+            top: 0;
+            margin-top: 16px;
+      }
+
+      nav ul {
+            max-height: 0px;
+            background: #000;
+      }
+
+      nav.black ul {
+            background: #000;
+      }
+
+      .showing {
+            max-height: 34em;
+      }
+
+      nav ul li {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 24px;
+            text-align: center;
+      }
+
+      .menu-icon {
+            display: block;
+      }
+
+}
+
+
+
+
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat|Roboto");
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  font-size: 1em;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.45;
+  background-color: #363636;
+}
+
+.chatbot__overview {
+  background-color: transparent;
+  display: flex;
+  flex-flow: row nowrap;
+  align-content: space-between;
+  min-height: 70vh;
+  max-height: 70vh;
+  min-width: 80vh;
+  max-width: 80vh;
+  margin: 0 auto;
+  margin-top: 100%
+  padding: 1em;
+  padding-bottom: 0;
+}
+
+.chatlist {
+  font-family: inherit;
+  font-size: 1em;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-end;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 35em;
+  max-height: 75vh;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.chatlist .userInput, .chatlist .bot__output {
+  padding: 0.85em;
+  margin: 0.5em;
+  max-width: 100%;
+  background-color: #fff;
+  border-radius: 5px;
+  border-bottom: 1px solid #777;
+}
+.chatlist .userInput {
+  text-transform: lowercase;
+  box-shadow: 1px 1px 2px #666;
+  border-top: 4px solid #CC8914;
+  opacity: 0;
+  animation-name: animateBubble;
+  animation-duration: 400ms;
+  animation-iteration-count: 1;
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+}
+.chatlist .bot__output {
+  align-self: flex-start;
+  box-shadow: -1px 1px 2px #666;
+  border-top: 4px solid #27ae60;
+  will-change: auto;
+  height: auto;
+  opacity: 0;
+  animation-name: animateBubble;
+  animation-duration: 400ms;
+  animation-iteration-count: 1;
+  animation-play-state: paused;
+  animation-fill-mode: forwards;
+}
+.chatlist .bot__output:last-child {
+  display: none;
+}
+.chatlist .bot__command {
+  color: #f5f5f5;
+  color: #27ae60;
+  font-weight: 600;
+  padding: 0.1em;
+}
+.chatlist .bot__output:nth-child(1) {
+  animation-delay: 600ms;
+  animation-play-state: running;
+}
+.chatlist .bot__output:nth-child(2) {
+  animation-delay: 1200ms;
+  animation-play-state: running;
+}
+.chatlist .bot__output:nth-child(3) {
+  animation-delay: 1800ms;
+  animation-play-state: running;
+}
+.chatlist .bot__output--standard:last-child {
+  display: block;
+}
+.chatlist .bot__output--failed {
+  display: block !important;
+}
+.chatlist .bot__output--second-sentence {
+  display: block;
+}
+.chatlist .bot__outputImage {
+  max-width: 16em;
+  height: 12em;
+}
+
+@keyframes animateBubble {
+  0% {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.block--background {
+  background-color: transparent;
+  width: 100vw;
+  height: 100vh;
+}
+
+#chatform {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  max-width: 35em;
+  margin: 0 auto;
+  padding-top: 1em;
+  font-size: 1em;
+  font-family: Helvetica;
+}
+@media screen and (max-width: 29em) {
+  #chatform {
+    width: 90%;
+  }
+}
+
+.chatbox-area {
+  margin: 0 auto;
+  position: relative;
+  bottom: 0;
+  height: auto;
+  width: 100%;
+}
+
+textarea[name=chatbox] {
+  resize: none;
+  border: 2px solid #27ae60;
+  border-right: 0;
+  width: 70%;
+  background-color: transparent;
+  color: #fff;
+  height: 3em;
+  margin: 0;
+  padding: 0.75em;
+  border-radius: 8px 0px 0px 8px;
+  font-family: inherit;
+  font-size: 1em;
+}
+textarea[name=chatbox]:focus {
+  outline: none;
+  border: 2px solid #4bd786;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: #fff;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #fff;
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #fff;
+  opacity: 1;
+}
+
+input[type=submit] {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  width: 25%;
+  margin: 0;
+  background-color: #27ae60;
+  color: #fff;
+  border: 2px solid #27ae60;
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+  font-family: inherit;
+  font-size: 1em;
+  transition: 200ms all ease-in;
+}
+input[type=submit]:hover {
+  background-color: #4bd786;
+  border-color: #4bd786;
+  color: #fff;
+}
+
+.input__nested-list {
+  list-style: disc;
+  list-style-position: inside;
+  padding: 0.5em;
+}
+.input__nested-list:first-child {
+  padding-top: 1em;
+}
+
+.input__nested-link {
+  color: #2ecc71;
+  text-decoration: none;
+  border-bottom: 1px solid #2ecc71;
+}
+
+::-webkit-scrollbar {
+  width: 0.65em;
+  /* for vertical scrollbars */
+  height: 0.65em;
+  /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+
+
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button{
+  background-color: #3c763d;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 60px;
+  border-radius: 100%;
+}
+
+.cancel{
+  background-color: #a94442;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 60px;
+  border-radius: 100%;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: inherit;
+  right: 15px;
+  z-index: 9;
+}
+
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 8% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style>
+</head>
+<body background="static/bg.gif" style="background-size: 97% 1000%">
+<div class="wrapper">
+<header>
+            <nav>
+               <div class="menu-icon">
+                  <i class="fa fa-bars fa-2x"></i>
+               </div>
+               <div class="logo">
+                  M A R C
+<!--                   <a class="btn btn-info" onclick="toastr.success('Hi! I am info message.');">Info message</a>-->
+
+               </div>
+               <div class="menu">
+                  <ul>
+                     <li><a href="{{url_for('login')}}">Home</a></li>
+                     <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+<!--                     <li><a href="#">Blog</a></li>-->
+<!--                     <li><a href="#">Contact</a></li>-->
+<!--                     <li><a href="#">Contact</a></li>-->
+<!--                     <li><a href="#">Contact</a></li>-->
+                  </ul>
+               </div>
+            </nav>
+         </header>
+<div class="popup" onclick="myFunction()">
+  <span class="popuptext" id="myPopup">Chat here</span>
+  <button class="open-button popup" onclick="openForm()"><i class="fa fa-bars"></i></button>
+</div>
+    <div id="text">
+        <div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+      <p>
+            Hi there! Meet MARC.
+          <br>MARC is here to celebrate your victories, pump you up to survive those workouts, make chores a little less monotonous, cry with you when you've got to let it out, you name it, MARCs got it.
+          MARC recommends you songs based on its conversation with you. With a few keyboard clicks, MARC hand picks the best among a plethora of songs.<br /><br />
+            MARC, short for Music Analysis and Recommendation ChatBot, user input to enable a music recommender system.
+          MARC has suggest songs based on genre, artist, popularity and previous streaming history. This is made possible using unsupervised learning techniques and tools such as python, Flask, HTML and CSS.<br />
+        <br />With MARC, music streaming is only a click away. With SoundCloud support, MARC not only suggests the songs for the moment, but also allows you to listen to them on the go.
+         <br /> <br /><i><u>Instructions to use MARC</u></i><br/>
+> Say Hello!<br />
+> Try typing<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;- Search Songs<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;- Search Artist 	<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;- Search Genre <br />
+	&nbsp;&nbsp;&nbsp;&nbsp;- Create Playlist (Note: this feature is available once you've streamed a few songs, so MARC can understand your taste)<br />
+> Based on your response MARC identifies all possible matches. By typing the number code against the most accurate match, MARC will display results.<br />
+
+> In the case of an Invalid Input, try typing, 'What can you do?', so MARC can display available services to choose from.
+      </p>
+  </div>
+
+</div>
+
+    </div>
+<main class="page__main">
+    <div class="form-popup" id="myForm">
+    <div class="block--background">
+      <div class="chatbot__overview">
+        <ul class="chatlist">
+          <li class="bot__output bot__output--standard">Hey, I'm MARC!</li>
+<!--          <li class="bot__output bot__output&#45;&#45;standard">I will guide you through Mees' portfolio!</li>-->
+<!--          <li class="bot__output bot__output&#45;&#45;standard">-->
+<!--            <span class="bot__output&#45;&#45;second-sentence">You can ask me a bunch of things!</span>-->
+<!--            <ul>-->
+<!--              <li class="input__nested-list">Something <span class="bot__command">about</span> Mees</li>-->
+<!--              <li class="input__nested-list">Mees' <span class="bot__command">best work</span></li>-->
+<!--              <li class="input__nested-list">Maybe I could <span class="bot__command">help</span> (for more instructions)</li>-->
+<!--              <li class="input__nested-list">Type <span class="bot__command">commands</span> for a list of every command</li>-->
+<!--            </ul>-->
+<!--            You could also scroll down to see Mees' full portfolio-->
+<!--          </li>-->
+        </ul>
+      </div>
+        <center><div id="loading" style="position: absolute; display: none;
+left: 50%;
+top: 75%;
+transform: translate(-50%, -50%);
+padding: 10px;"><img src="static/YdBO.gif" alt="loader" width="40%" height="40%" style="clip: rect(40px,20px,60px,80px);"/></div></center>
+      <div class="chatbox-area" id="content">
+        <form method="post" action="" id="chatform">
+            <textarea placeholder="Talk to me!" class="chatbox" name="chatbox" id="chatbox" minlength="2"></textarea>
+            <input class="submit-button" type="submit" id="send" value="send">
+        </form>
+      </div>
+<!--			    <div class="block&#45;&#45;background"></div>-->
+
+    </div>
+        <button type="button" class="cancel" onclick="closeForm()"><i class="fa fa-close"></i></button>
+
+    </div>
+</main>
+<!-- partial -->
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  var sendForm = document.querySelector('#chatform'),
+    textInput = document.querySelector('.chatbox'),
+    chatList = document.querySelector('.chatlist'),
+    userBubble = document.querySelectorAll('.userInput'),
+    botBubble = document.querySelectorAll('.bot__output'),
+    animateBotBubble = document.querySelectorAll('.bot__input--animation'),
+    overview = document.querySelector('.chatbot__overview'),
+    hasCorrectInput,
+    imgLoader = false,
+    animationCounter = 1,
+    animationBubbleDelay = 600,
+    input,
+    previousInput,
+    isReaction = false,
+    unkwnCommReaction = "I didn't quite get that.",
+    chatbotButton = document.querySelector(".submit-button")
+
+sendForm.onkeydown = function(e){
+  if(e.keyCode == 13){
+    e.preventDefault();
+
+    //No mix ups with upper and lowercases
+    var input = textInput.value.toLowerCase();
+
+    //Empty textarea fix
+    if(input.length > 0) {
+      createBubble(input)
+    }
+  }
+};
+
+sendForm.addEventListener('submit', function(e) {
+  //so form doesnt submit page (no page refresh)
+  e.preventDefault();
+
+  //No mix ups with upper and lowercases
+  var input = textInput.value.toLowerCase();
+
+  //Empty textarea fix
+  if(input.length > 0) {
+    createBubble(input)
+  }
+}) //end of eventlistener
+
+var createBubble = function(input) {
+  //create input bubble
+  var chatBubble = document.createElement('li');
+  chatBubble.classList.add('userInput');
+
+  //adds input of textarea to chatbubble list item
+  chatBubble.innerHTML = input;
+
+  //adds chatBubble to chatlist
+  chatList.appendChild(chatBubble)
+
+  jQuery(document).ready(function() {
+
+          $.ajax({
+              type: "POST",
+              url: "/chatbot",
+              data: {
+                 chatbox : input
+              },
+              beforeSend: function(){
+                    // Show image container
+                    $('#loading').show();
+                    $('#content').hide();
+              },
+              success: function(result) {
+<!--                $("#bot__output").append("<br>Me: "+$("#chatbox").val()+ "<br> Karabo: "+result.response);-->
+<!--                $("#chatbox").val("")-->
+<!--                   document.getElementById("chatbox").focus();-->
+                   botResponse(result);
+              },
+               complete:function(data){
+                    $('#loading').hide();
+                    $('#content').show();
+                    $(document).ready(function() {
+                         $("#chatbox").focus();
+                    });
+               },
+              error: function(result) {
+                  alert('error');
+              }
+          });
+
+
+
+        });
+
+}
+
+
+<!--// debugger;-->
+function stripHtml(html)
+{
+   let tmp = document.createElement("DIV");
+   tmp.innerHTML = html;
+   return tmp.textContent || tmp.innerText || "";
+}
+function botResponse(rs) {
+
+  //create response bubble
+  var userBubble = document.createElement('li');
+      responseText(rs.response)
+  //add list item to chatlist
+  chatList.appendChild(userBubble) //adds chatBubble to chatlist
+    var res=stripHtml(rs.response)
+    var msg = new SpeechSynthesisUtterance();
+    msg.text = res;
+
+<!--    msg.voice = voices.filter(function(voice) { return voice.name == 'Google UK English Male'; })[0];-->
+    window.speechSynthesis.cancel();
+<!--    window.speechSynthesis.speak(msg);-->
+
+    var timer = setInterval(function() {
+    var voices = speechSynthesis.getVoices();
+<!--    console.log(voices);-->
+    if (voices.length !== 0) {
+      var msg = new SpeechSynthesisUtterance(res);
+      msg.voice = voices.filter(function(voice) { return voice.name == 'Google UK English Male'; })[0];
+      speechSynthesis.speak(msg);
+      clearInterval(timer);
+    }
+}, 200);
+
+<!--    Google UK English Male-->
+
+  // reset text area input
+  textInput.value = "";
+}
+
+function responseText(e) {
+
+  var response = document.createElement('li');
+
+  response.classList.add('bot__output');
+
+  //Adds whatever is given to responseText() to response bubble
+  response.innerHTML = e;
+
+  chatList.appendChild(response);
+
+  animateBotOutput();
+
+<!--  console.log(response.clientHeight);-->
+
+  //Sets chatlist scroll to bottom
+  setTimeout(function(){
+    chatList.scrollTop = chatList.scrollHeight;
+<!--    console.log(response.clientHeight);-->
+  }, 0)
+}
+
+
+//change to SCSS loop
+function animateBotOutput() {
+  chatList.lastElementChild.style.animationDelay= (animationCounter * animationBubbleDelay)+"ms";
+<!--  animationCounter++;-->
+  chatList.lastElementChild.style.animationPlayState = "running";
+}
+//check for Navigation Timing API support
+if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  console.info( "This page is reloaded" );
+  $.ajax({
+              type: "POST",
+              url: "/chatbot",
+              data: {
+                 reload : "reload"
+              },
+              success: function(result) {
+
+              },
+              error: function(result) {
+                  alert('error');
+              }
+          });
+
+}
+
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+    document.getElementById("myPopup").style.visibility="hidden";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+  document.getElementById("myPopup").style.visibility="visible";
+}
+
+ $(document).ready(function() {
+ toastr.options = {
+  "debug": false,
+  "positionClass": "toast-bottom-full-width",
+  "onclick": null,
+  "fadeIn": 300,
+  "fadeOut": 1000,
+  "timeOut": 5000,
+  "extendedTimeOut": 1000
+}
+toastr.success('Hi! {{ data }}.');
+            $(".menu-icon").on("click", function() {
+                  $("nav ul").toggleClass("showing");
+            });
+      });
+
+      // Scrolling Effect
+
+      $(window).on("scroll", function() {
+            if($(window).scrollTop()) {
+                  $('nav').addClass('black');
+            }
+
+            else {
+                  $('nav').removeClass('black');
+            }
+      })
+
+ // When the user clicks on <div>, open the popup
+    function myFunction() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+
+
+    if ( window.history.replaceState ) {
+<!--        console.log('ugh')-->
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+
+}
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+window.onload = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+</script>
+</body>
+</html>
