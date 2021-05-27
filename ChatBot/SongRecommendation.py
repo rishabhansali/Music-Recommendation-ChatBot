@@ -4,7 +4,7 @@ Created on Tue May  4 21:15:40 2021
 """
 
 import pandas as pd
-from OOPapproach import *
+from .OOPapproach import *
 import base64
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
