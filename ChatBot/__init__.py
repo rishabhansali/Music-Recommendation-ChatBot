@@ -4,12 +4,12 @@ import sqlite3
 import pandas as pd
 from flask import Flask, render_template, jsonify, request, url_for, redirect, session
 
-import ArtistSearch
-import GenreSearch
-import Playlist
-import SongRecommendation
-import database
-import processor
+import .ArtistSearch
+import .GenreSearch
+import .Playlist
+import .SongRecommendation
+import .database
+import .processor
 
 app = Flask(__name__)
 
