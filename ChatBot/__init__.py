@@ -1,6 +1,4 @@
 import re
-import psycopg2
-
 import pandas as pd
 from flask import Flask, render_template, jsonify, request, url_for, redirect, session
 
