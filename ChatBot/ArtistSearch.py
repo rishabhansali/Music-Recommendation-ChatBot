@@ -15,7 +15,7 @@ def getArtist(userinput):
     userinput = userinput.lower()
     res += "Your artist is: " + userinput + "<br />"
 
-    song_df_normalised = pd.read_csv("datasets/song_df_normalised.csv")
+    song_df_normalised = pd.read_csv("song_df_normalised.csv")
 
     try:
         artist = \

@@ -15,7 +15,7 @@ from scipy.sparse import csr_matrix
 import pickle
 from .database import insertUser, insertUserHist, retrieveUserHistory, retrieveUsers, retrieveSentiment
 
-song_df_normalised = pd.read_csv("datasets/song_df_normalised.csv")
+song_df_normalised = pd.read_csv("song_df_normalised.csv")
 song_df_normalised.head()
 
 pickle_in = open("nn_model2.pkl", "rb")

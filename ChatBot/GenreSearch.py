@@ -9,7 +9,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 def genresearch():
     res = ""
-    song_df_normalised = pd.read_csv("datasets/song_df_normalised.csv")
+    song_df_normalised = pd.read_csv("song_df_normalised.csv")
     genre_list = song_df_normalised['playlist_subgenre'].unique().tolist()
     res += "Choose your Genre<br />"
     j = 0
@@ -21,7 +21,7 @@ def genresearch():
 
 def genre_recommend(option):
     res = ""
-    song_df_normalised = pd.read_csv("datasets/song_df_normalised.csv")
+    song_df_normalised = pd.read_csv("song_df_normalised.csv")
     genre_list = song_df_normalised['playlist_subgenre'].unique().tolist()
     if option.isdigit():
         if int(option)-1 not in range(len(genre_list)):
