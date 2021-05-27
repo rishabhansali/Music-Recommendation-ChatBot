@@ -3,12 +3,17 @@
 Created on Mon May  3 23:07:27 2021
 
 """
+# -*- coding: utf-8 -*-
+"""
+Created on Mon May  3 23:07:27 2021
+
+"""
 
 import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
 import pickle
-import database
+from .database import insertUser, insertUserHist, retrieveUserHistory, retrieveUsers, retrieveSentiment
 
 song_df_normalised = pd.read_csv("datasets/song_df_normalised.csv")
 song_df_normalised.head()
@@ -162,8 +167,8 @@ def streamhistory(id, user_search, sentiment):
     # # user_song = [user_search]
     # # user_sentiment = [sentiment]
     # print(id, user_search, sentiment)
-    database.insertUserHist(id, user_search, sentiment)
-    user = database.retrieveSentiment(id)
+    insertUserHist(id, user_search, sentiment)
+    user = retrieveSentiment(id)
     print(user)
     if user:
         for i in user:
