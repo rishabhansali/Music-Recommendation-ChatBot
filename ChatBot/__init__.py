@@ -136,6 +136,7 @@ def users():
             return render_template("tables.html", data=users)
     return redirect(url_for('login'))
 
+
 # "http://i.stack.imgur.com/SBv4T.gif"
 songs = 0
 artist = 0
@@ -303,8 +304,11 @@ def logout():
     play = 0
     choose = 0
     return redirect(url_for('login'))
- def getApp():
-     return app
+
+
+def getApp():
+    return app
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='8888', debug=True)
