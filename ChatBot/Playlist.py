@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+# -*- coding: utf-8 -*-
+
 import pandas as pd
 import random
 from statistics import mode
 from statistics import StatisticsError
 from scipy.sparse import csr_matrix
-import database
+from .database import insertUserHist, insertUser, retrieveUserHistory, retrieveUsers, retrieveSentiment
 import pickle
 
 
@@ -16,7 +18,7 @@ def personalplaylist(user_id):
     # history = pd.read_csv("datasets/streaminghistory.csv")
     song_df_normalised = pd.read_csv('datasets/song_df_normalised.csv')
 
-    history = database.retrieveSentiment(user_id)
+    history = retrieveSentiment(user_id)
     # in case user is new, then we dont let them access this feature until they serach for a song
     #    try:
     #        sentiment_history =history[history['user'] == username]['song_sentiment'].tolist()[0]
