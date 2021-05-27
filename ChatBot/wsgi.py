@@ -1,3 +1,3 @@
-from catalog import getApp
+from __init__ import getApp
 
 app = getApp()
