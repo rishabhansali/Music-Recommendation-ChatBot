@@ -1,15 +1,16 @@
 import re
-import sqlite3
+import psycopg2
 
 import pandas as pd
 from flask import Flask, render_template, jsonify, request, url_for, redirect, session
 
-import .ArtistSearch
-import .GenreSearch
-import .Playlist
-import .SongRecommendation
-import .database
-import .processor
+from .ArtistSearch import artistsearch, getArtist
+from .GenreSearch import genresearch, genre_recommend
+from .Playlist import personalplaylist 
+from .SongRecommendation import getSong, songrecommender
+from .database import retrieveSentiment, retrieveUsers,retrieveUserHistory,insertUserHist,insertUser
+from .processor import chatbot_response
+
 
 app = Flask(__name__)
 
@@ -109,7 +110,7 @@ def register():
                 elif not username or not password or not name:
                     msg = 'Please fill out the form !'
                 else:
-                    database.insertUser(name, username, password)
+                    insertUser(name, username, password)
                     success = 'You have successfully registered. Please Login!'
                     return render_template('login.html', success=success)
             elif request.method == 'POST':
@@ -119,6 +120,7 @@ def register():
     return render_template('register.html', msg=msg)
 
 
+
 @app.route("/users", methods=['GET', 'POST'])
 def users():
     if session['flag'] == 1:
@@ -126,11 +128,11 @@ def users():
         return redirect(url_for('login'))
     elif 'username' in session:
         if session["username"] == "admin":
-            users = database.retrieveUsers()
+            users = retrieveUsers()
             print(request.args)
             if 'id' in request.args:
                 print(request.args.get('id'))
-                hist = database.retrieveUserHistory(request.args.get('id'))
+                hist = retrieveUserHistory(request.args.get('id'))
                 return render_template("tables.html", data=users, hist=hist)
             return render_template("tables.html", data=users)
     return redirect(url_for('login'))
@@ -189,43 +191,43 @@ def chatbotResponse():
                 response = "Enter the song you want recommendations for"
             elif the_question.lower() == "search genre":
                 genre = 1
-                response = GenreSearch.genresearch()
+                response = genresearch()
             elif the_question.lower() == "create playlist":
                 text = 1
-                response = Playlist.personalplaylist(session['id'])
+                response = personalplaylist(session['id'])
             elif the_question.lower() == "search song":
                 play = 1
                 response = "Enter song name"
             elif artist == 1:
                 artist = 0
-                response = ArtistSearch.getArtist(the_question)
+                response = getArtist(the_question)
                 if response.find("No result :(") > -1:
                     option = 0
                 else:
                     option = 1
             elif option == 1:
                 option = 0
-                response = ArtistSearch.artistsearch(the_question)
+                response = artistsearch(the_question)
             elif genre == 1:
                 genre = 0
-                response = GenreSearch.genre_recommend(the_question)
+                response = genre_recommend(the_question)
             elif songs == 1:
                 songs = 0
                 global userinput
                 userinput = the_question
                 track = 1
-                response, list, l = SongRecommendation.getSong(userinput)
+                response, list, l = getSong(userinput)
                 if response.find("Sorry!! We couldn't get any results for") > -1:
                     track = 0
             elif track == 1:
-                response = SongRecommendation.songrecommender(the_question, userinput, session['id'], list)
+                response = songrecommender(the_question, userinput, session['id'], list)
                 # response += "<div class=\"alert alert-info\"><strong>Enter 'Y' to get recommendations for another song.</strong>"
                 track = 0
             elif play == 1:
                 play = 0
                 print("hi")
                 choose = 1
-                response, list, l = SongRecommendation.getSong(the_question)
+                response, list, l = getSong(the_question)
                 userinput = the_question
                 if response.find("Sorry!! We couldn't get any results for") > -1:
                     choose = 0
@@ -250,7 +252,7 @@ def chatbotResponse():
                             (song_df_normalised['track_name'] == song_name) & (
                                     song_df_normalised['track_artist'] == artist_name)][
                             'sentiment'].tolist()[0]
-                        database.insertUserHist(session["id"], chosenSong, sentiment)
+                        insertUserHist(session["id"], chosenSong, sentiment)
                         response += "Artist name: " + artist_name + "<br />"
                         x = song_df_normalised[
                             (song_df_normalised['track_name'] == song_name) & (
@@ -262,7 +264,7 @@ def chatbotResponse():
                     response = "Invalid choice :("
             else:
                 # print(the_question)
-                response = processor.chatbot_response(the_question)
+                response = chatbot_response(the_question)
             # print(response)
     else:
         songs = 0
@@ -310,4 +312,4 @@ def getApp():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='8888', debug=True)
+    app.run(debug=True)
