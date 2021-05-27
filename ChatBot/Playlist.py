@@ -16,7 +16,7 @@ def personalplaylist(user_id):
     pickle_in = open("nn_model2.pkl", "rb")
     model_nn = pickle.load(pickle_in)
     # history = pd.read_csv("datasets/streaminghistory.csv")
-    song_df_normalised = pd.read_csv('song_df_normalised.csv')
+    song_df_normalised = pd.read_csv('static/song_df_normalised.csv')
 
     history = retrieveSentiment(user_id)
     # in case user is new, then we dont let them access this feature until they serach for a song

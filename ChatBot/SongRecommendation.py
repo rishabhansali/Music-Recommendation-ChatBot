@@ -30,7 +30,7 @@ def getSong(userinput):
     userinput = userinput.lower()
     res = ("Your song is: " + userinput + "<br />")
 
-    song_df_normalised = pd.read_csv("song_df_normalised.csv")
+    song_df_normalised = pd.read_csv("static/song_df_normalised.csv")
 
     try:
         song_name = \

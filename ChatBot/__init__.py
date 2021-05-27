@@ -8,6 +8,7 @@ from .Playlist import personalplaylist
 from .SongRecommendation import getSong, songrecommender
 from .database import retrieveSentiment, retrieveUsers,retrieveUserHistory,insertUserHist,insertUser
 from .processor import chatbot_response
+import sqlite3
 
 
 app = Flask(__name__)
@@ -231,7 +232,7 @@ def chatbotResponse():
                     choose = 0
             elif choose == 1:
                 choose = 0
-                song_df_normalised = pd.read_csv("datasets/song_df_normalised.csv")
+                song_df_normalised = pd.read_csv("static/song_df_normalised.csv")
                 song_name_list = song_df_normalised[song_df_normalised['song_artist'].str.contains(userinput)][
                     'track_name'].tolist()
                 artist_list = song_df_normalised[song_df_normalised['song_artist'].str.contains(userinput)][
