@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
-from OOPapproach import *
-from SongRecommendation import *
+from .OOPapproach import *
+from .SongRecommendation import *
 import base64
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
