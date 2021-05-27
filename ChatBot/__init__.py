@@ -1,16 +1,15 @@
 import re
+import sqlite3
+
 import pandas as pd
 from flask import Flask, render_template, jsonify, request, url_for, redirect, session
-from regex._regex_core import Info
-import sqlite3
-from flask import g
-import processor
-import SongRecommendation
-import GenreSearch
+
 import ArtistSearch
-import database
+import GenreSearch
 import Playlist
-from dash.dependencies import Input, Output
+import SongRecommendation
+import database
+import processor
 
 app = Flask(__name__)
 
