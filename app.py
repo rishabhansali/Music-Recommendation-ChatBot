@@ -1,15 +1,15 @@
 import re
 import pandas as pd
-from flask import Flask, render_template, jsonify, request, url_for, redirect, session
+from flask import Flask, render_template, jsonify, request, url_for, redirect, session, g
 
 from ArtistSearch import artistsearch, getArtist
 from GenreSearch import genresearch, genre_recommend
 from Playlist import personalplaylist
 from SongRecommendation import getSong, songrecommender
-from database import retrieveSentiment, retrieveUsers,retrieveUserHistory,insertUserHist,insertUser
+from database import retrieveSentiment, retrieveUsers, retrieveUserHistory, insertUserHist, insertUser, set_list, \
+    get_list
 from processor import chatbot_response
 import sqlite3
-
 
 app = Flask(__name__)
 
@@ -23,6 +23,9 @@ cur.execute(
     "CREATE TABLE IF NOT EXISTS users(id integer primary key autoincrement,name varchar(50) not null,username varchar(255) not null,password varchar(50) not null);")
 cur.execute(
     "CREATE TABLE IF NOT EXISTS history(id integer primary key autoincrement, user_id integer not null, song text not null,sentiment varchar(50) not null, htime datetime, FOREIGN KEY (user_id) REFERENCES users(id));")
+cur.execute(
+    "create table if not exists input(user_id integer, userinput text, FOREIGN KEY (user_id) REFERENCES users(id));")
+cur.execute("create table if not exists list(user_id integer, list text, FOREIGN KEY (user_id) REFERENCES users(id));")
 
 con.commit()
 con.close()
@@ -64,6 +67,14 @@ def login():
                         session['id'] = rows[0][0]
                         session['name'] = rows[0][1]
                         session['username'] = username
+                        session['songs'] = 0
+                        session['artist'] = 0
+                        session['genre'] = 0
+                        session['text'] = 0
+                        session['track'] = 0
+                        session['option'] = 0
+                        session['play'] = 0
+                        session['choose'] = 0
                         msg = 'Logged in successfully !'
                         return render_template('index.html', msg=msg, data=session['name'])
                     else:
@@ -76,6 +87,14 @@ def login():
             # print(rows)
             return render_template("/dash.html", data=rows[0][0])
         con.close()
+        session['songs'] = 0
+        session['artist'] = 0
+        session['genre'] = 0
+        session['text'] = 0
+        session['track'] = 0
+        session['option'] = 0
+        session['play'] = 0
+        session['choose'] = 0
         return render_template('index.html', data=session['name'])
     return render_template('login.html')
 
@@ -119,7 +138,6 @@ def register():
     return render_template('register.html', msg=msg)
 
 
-
 @app.route("/users", methods=['GET', 'POST'])
 def users():
     if session['flag'] == 1:
@@ -138,104 +156,117 @@ def users():
 
 
 # "http://i.stack.imgur.com/SBv4T.gif"
-songs = 0
-artist = 0
-genre = 0
-text = 0
-track = 0
-option = 0
-play = 0
-choose = 0
-userinput = ""
-sentiment = ""
-list = []
-l = []
+# songs = 0
+# artist = 0
+# genre = 0
+# text = 0
+# track = 0
+# option = 0
+# play = 0
+# choose = 0
+# userinput = ""
+# sentiment = ""
+# list = []
+# l = []
 
 
 @app.route('/chatbot', methods=["GET", "POST"])
 def chatbotResponse():
-    global songs
-    global artist
-    global genre
-    global text
-    global track
-    global option
-    global list
-    global play
-    global choose
-    global l
     response = ""
     if request.method == 'POST' and 'chatbox' in request.form:
         postData = request.form
         # print(request.form)
         if request.form.getlist('reload'):
-            songs = 0
-            artist = 0
-            genre = 0
-            text = 0
-            track = 0
-            option = 0
-            play = 0
+            session['songs'] = 0
+            session['artist'] = 0
+            session['genre'] = 0
+            session['text'] = 0
+            session['track'] = 0
+            session['option'] = 0
+            session['play'] = 0
+            session['choose'] = 0
             return redirect(url_for('chatbotResponse'))
         else:
-            the_question = request.form['chatbox']
+            g.question = request.form['chatbox']
+            the_question = g.question
             # if track == 1:
             the_question = the_question.strip()
 
             if the_question.lower() == "search artist":
-                artist = 1
+                session['artist'] = 1
                 response = "Enter artist name"
             elif the_question.lower() == "search similar songs":
-                songs = 1
+                session['songs'] = 1
                 response = "Enter the song you want recommendations for"
             elif the_question.lower() == "search genre":
-                genre = 1
+                session['genre'] = 1
                 response = genresearch()
             elif the_question.lower() == "create playlist":
-                text = 1
+                session['text'] = 1
                 response = personalplaylist(session['id'])
             elif the_question.lower() == "search song":
-                play = 1
+                session['play'] = 1
                 response = "Enter song name"
-            elif artist == 1:
-                artist = 0
+            elif session['artist'] == 1:
+                session['artist'] = 0
                 response = getArtist(the_question)
                 if response.find("No result :(") > -1:
-                    option = 0
+                    session['option'] = 0
                 else:
-                    option = 1
-            elif option == 1:
-                option = 0
+                    session['option'] = 1
+            elif session['option'] == 1:
+                session['option'] = 0
                 response = artistsearch(the_question)
-            elif genre == 1:
-                genre = 0
+            elif session['genre'] == 1:
+                session['genre'] = 0
                 response = genre_recommend(the_question)
-            elif songs == 1:
-                songs = 0
-                global userinput
+            elif session['songs'] == 1:
+                session['songs'] = 0
+                # global userinput
                 userinput = the_question
-                track = 1
+                session['track'] = 1
                 response, list, l = getSong(userinput)
                 if response.find("Sorry!! We couldn't get any results for") > -1:
-                    track = 0
-            elif track == 1:
-                response = songrecommender(the_question, userinput, session['id'], list)
+                    session['track'] = 0
+                else:
+                    set_list(session['id'], userinput, list)
+            elif session['track'] == 1:
+                userinput, list = get_list(session['id'])
+                uinput=""
+                l = []
+                for i in userinput[0]:
+                    uinput = i
+                c=0
+                print(the_question)
+                for i in list:
+                    print(c, i[0])
+                    l.append(i[0])
+                    c+=1
+
+                response = songrecommender(the_question, uinput, session['id'], l)
                 # response += "<div class=\"alert alert-info\"><strong>Enter 'Y' to get recommendations for another song.</strong>"
-                track = 0
-            elif play == 1:
-                play = 0
+                session['track'] = 0
+            elif session['play'] == 1:
+                session['play'] = 0
                 print("hi")
-                choose = 1
+                session['choose'] = 1
                 response, list, l = getSong(the_question)
                 userinput = the_question
                 if response.find("Sorry!! We couldn't get any results for") > -1:
-                    choose = 0
-            elif choose == 1:
-                choose = 0
+                    session['choose'] = 0
+                else:
+                    set_list(session['id'], userinput, list)
+            elif session['choose'] == 1:
+                session['choose'] = 0
+                userinput, list = get_list(session['id'])
+                print(userinput)
+                uinput=""
+                for i in userinput[0]:
+                    uinput = i
                 song_df_normalised = pd.read_csv("static/song_df_normalised.csv")
-                song_name_list = song_df_normalised[song_df_normalised['song_artist'].str.contains(userinput)][
+                song_name_list = song_df_normalised[song_df_normalised['song_artist'].str.contains(uinput)][
                     'track_name'].tolist()
-                artist_list = song_df_normalised[song_df_normalised['song_artist'].str.contains(userinput)][
+                artist_list = song_df_normalised[song_df_normalised['song_artist'].str.contains(uinput)][
                     'track_artist'].tolist()
                 if the_question.isdigit():
                     x = int(the_question) - 1
@@ -244,7 +275,10 @@ def chatbotResponse():
                         response = "Sorry, invalid choice :("
                     else:
                         song_name = song_name_list[x]
-                        chosenSong = list[x]
+                        print(list[0])
+                        chosenSong = ""
+                        for i in list[x]:
+                            chosenSong = i
                         response = "Song from dataset: " + song_name + "<br />"
                         artist_name = artist_list[x]
                         sentiment = song_df_normalised[
@@ -266,14 +300,14 @@ def chatbotResponse():
                 response = chatbot_response(the_question)
             # print(response)
     else:
-        songs = 0
-        artist = 0
-        genre = 0
-        text = 0
-        track = 0
-        option = 0
-        play = 0
-        choose = 0
+        session['songs'] = 0
+        session['artist'] = 0
+        session['genre'] = 0
+        session['text'] = 0
+        session['track'] = 0
+        session['option'] = 0
+        session['play'] = 0
+        session['choose'] = 0
     del request.form
     return jsonify({"response": response})
 
@@ -284,25 +318,15 @@ def logout():
     session.pop('id', None)
     session.pop('username', None)
     session['flag'] = 1
-    global songs
-    global artist
-    global genre
-    global text
-    global track
-    global mood
-    global option
-    global play
-    global choose
-
-    songs = 0
-    artist = 0
-    genre = 0
-    text = 0
-    track = 0
-    option = 0
-    mood = ""
-    play = 0
-    choose = 0
+    session.pop('songs', None)
+    session.pop('artist', None)
+    session.pop('genre', None)
+    session.pop('text', None)
+    session.pop('track', None)
+    session.pop('mood', None)
+    session.pop('option', None)
+    session.pop('play', None)
+    session.pop('choose', None)
     return redirect(url_for('login'))
 
 
@@ -311,4 +335,4 @@ def getApp():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
