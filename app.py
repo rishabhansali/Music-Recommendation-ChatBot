@@ -2,12 +2,12 @@ import re
 import pandas as pd
 from flask import Flask, render_template, jsonify, request, url_for, redirect, session
 
-from .ArtistSearch import artistsearch, getArtist
-from .GenreSearch import genresearch, genre_recommend
-from .Playlist import personalplaylist 
-from .SongRecommendation import getSong, songrecommender
-from .database import retrieveSentiment, retrieveUsers,retrieveUserHistory,insertUserHist,insertUser
-from .processor import chatbot_response
+from ArtistSearch import artistsearch, getArtist
+from GenreSearch import genresearch, genre_recommend
+from Playlist import personalplaylist
+from SongRecommendation import getSong, songrecommender
+from database import retrieveSentiment, retrieveUsers,retrieveUserHistory,insertUserHist,insertUser
+from processor import chatbot_response
 import sqlite3
 
 

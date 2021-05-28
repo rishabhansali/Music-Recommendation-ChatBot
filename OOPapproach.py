@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
 import pickle
-from .database import insertUser, insertUserHist, retrieveUserHistory, retrieveUsers, retrieveSentiment
+from database import insertUser, insertUserHist, retrieveUserHistory, retrieveUsers, retrieveSentiment
 
 song_df_normalised = pd.read_csv("static/song_df_normalised.csv")
 song_df_normalised.head()

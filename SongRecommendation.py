@@ -4,7 +4,7 @@ Created on Tue May  4 21:15:40 2021
 """
 
 import pandas as pd
-from .OOPapproach import *
+from OOPapproach import *
 import base64
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
@@ -30,7 +30,7 @@ def getSong(userinput):
     userinput = userinput.lower()
     res = ("Your song is: " + userinput + "<br />")
 
-    song_df_normalised = pd.read_csv("static/song_df_normalised.csv")
+    song_df_normalised = pd.read_csv("./static/song_df_normalised.csv")
 
     try:
         song_name = \
