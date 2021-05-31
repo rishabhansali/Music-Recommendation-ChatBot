@@ -9,4 +9,4 @@ Creating a recommendation system is hence a healthy addition to any streaming pl
 underlying goal of such a system would be to deliver an overall personalized timeline for users that
 not only saves the users’ browsing time but also offers a hassle-free streaming experience.
 
-![Demo](https://drive.google.com/file/d/1X0NJ0ViTyH1TiAEEWWsbs35lelv7MHcf/view?usp=sharing)
+https://drive.google.com/file/d/1X0NJ0ViTyH1TiAEEWWsbs35lelv7MHcf/view?usp=sharing
